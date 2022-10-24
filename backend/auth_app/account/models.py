@@ -81,3 +81,11 @@ class CustomUser(AbstractUser):
         ordering = ["-id"]
 
 
+class Todos(models.Model):
+    created_timestamp = models.DateTimeField(default=timezone.now())
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    status = models.CharField(
+        max_length=100, choices=STATUS_CHOICES, default='new')
+    is_delete = models.BooleanField(default=False)

@@ -8,6 +8,8 @@ from rest_framework_simplejwt.views import (
 
 router = routers.DefaultRouter()
 router.register(r"users", views.UserViewSet)
+router.register(r"todos", views.TodoViewSet, basename="todos")
+
 
 urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),

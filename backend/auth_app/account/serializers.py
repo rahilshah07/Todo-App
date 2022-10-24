@@ -30,3 +30,8 @@ class UserSerializerWithToken(UserSerializer):
     def get_refresh(self, obj):
         token = RefreshToken.for_user(obj)
         return str(token)
+
+class TodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todos
+        fields = '__all__'
