@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'account',
+    'account',
 
     'rest_framework',  # https://www.django-rest-framework.org/
     'rest_framework.authtoken',
@@ -64,7 +64,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'auth_app.urls'
-# AUTH_USER_MODEL = "account.CustomUser"
+AUTH_USER_MODEL = "account.CustomUser"
 INTERNAL_IPS = [
     # ...
     '127.0.0.1',
