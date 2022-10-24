@@ -119,3 +119,29 @@ class UserViewSet(ReadOnlyModelViewSet):
     queryset = CustomUser.objects.all()
     permission_classes = [IsAuthenticated]
 
+class TodoViewSet(viewsets.ModelViewSet):
+    queryset = Todos.objects.all()
+    serializer_class = TodoSerializer
+
+    # def get_queryset(self):
+    #     if self.request.query_params['status']=='NEW':
+    #         return self.queryset.filter(status='new')
+    #     return self.queryset.none()
+
+    @action(detail=False, methods=['post'])
+    def update_data(self, *args, **kwargs):
+        obj_id = self.request.data.get('id', '')
+        if not id:
+            return Response("ID Required", status.HTTP_400_BAD_REQUEST)
+        todo_obj = self.queryset.get(id=obj_id)
+        if self.request.data.get('is_delete', ''):
+            todo_obj.is_delete = True
+        if self.request.data.get('title', ''):
+            todo_obj.title = self.request.data.get('title')
+        if self.request.data.get('description', ''):
+            todo_obj.description = self.request.data.get('description')
+        if self.request.data.get('status', ''):
+            todo_obj.status = self.request.data.get('status')
+
+        todo_obj.save()
+        return Response("Updated Successfully", status.HTTP_200_OK)
