@@ -75,7 +75,6 @@ export class ItemsService {
       .pipe(
         map(responseData => {
             return (responseData && responseData == 'Updated Successfully') ? payload : false;
-            // return (responseData['success'] && responseData['success'] === true) ? responseData['result'] : false;
           }
         ),
         tap(item => { if (item) { this.updateItem(id , item); }}), // when success result, update the item in the local service
@@ -140,16 +139,7 @@ export class ItemsService {
     this.clear();
 
     return this.http.get(environment['apiBaseUrl'] + 'api/v1/accounts/todos/')
-      // .pipe(
-      //   map(data => {
-      //       return (data['result']) ? data['result'] : false;
-      //     }
-      //   ),
-      //   tap((items) => { if (items) { this.items$.next(items); }}),
-      //   catchError(err => {
-      //     return of(false);
-      //   }),
-      // );
+
   }
 
 }
