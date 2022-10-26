@@ -29,4 +29,8 @@ export class ItemsListItemComponent implements OnInit {
     this.itemsService.delete(this.item.id,this.item).subscribe();
   }
 
+  changeStatus(){
+    this.itemsService.changeStatus(this.item.id, this.item).subscribe();
+  }
+
 }

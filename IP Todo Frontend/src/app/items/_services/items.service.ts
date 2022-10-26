@@ -84,6 +84,32 @@ export class ItemsService {
       );
   }
 
+  changeStatus(id: number , payload: any): Observable<any> {
+    this.toggleStatus(payload);
+    return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/todos/update_data/', payload)
+      .pipe(
+        map(responseData => {
+            return (responseData && responseData == 'Updated Successfully') ? payload : false;
+          }
+        ),
+        tap(item => { if (item) { this.updateItem(id , item); }}), // when success result, update the item in the local service
+        catchError(err => {
+          return of(false);
+        }),
+      );
+  }
+
+  toggleStatus(payload: any){
+    let currentStatus = payload.status;
+    if(currentStatus == 'new'){
+      currentStatus = 'completed'
+      return payload.status = currentStatus
+    }else{
+      currentStatus = 'new'
+      return payload.status = currentStatus
+    }
+  }
+
   add(payload: AddItemModel): Observable<any> {
     return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/todos/' , payload)
       .pipe(
@@ -128,6 +154,8 @@ export class ItemsService {
       if (index1 >= 0 ) {
         currentItems[index1] = item;
         this.items$.next(currentItems);
+        console.log(this.items$);
+
         return true;
       }
     }
