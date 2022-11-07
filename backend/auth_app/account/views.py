@@ -13,7 +13,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from .models import *
-from .serializers import UserSerializer, UserSerializerWithToken, TodoSerializer
+from .serializers import *
 from rest_framework.decorators import action
 
 
@@ -145,3 +145,15 @@ class TodoViewSet(viewsets.ModelViewSet):
 
         todo_obj.save()
         return Response("Updated Successfully", status.HTTP_200_OK)
+
+
+class PhotoalbumViewset(viewsets.ModelViewSet):
+    queryset = Photoalbum.objects.all()
+    serializer_class = PhotoalbumSerializer
+
+    def create(self, request, *args, **kwargs):
+        user_obj = CustomUser.objects.get(id=str(request.data.get('user')))
+        obj = Photoalbum.objects.create(user=user_obj, img= request.data.get('image'))
+        obj.save()
+
+        return Response("Photo uploaded Sucessfully", status.HTTP_200_OK)

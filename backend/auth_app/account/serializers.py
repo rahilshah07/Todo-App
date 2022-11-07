@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.serializers import FileField
 from .models import CustomUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import *
@@ -34,4 +35,11 @@ class UserSerializerWithToken(UserSerializer):
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todos
+        fields = '__all__'
+
+
+class PhotoalbumSerializer(serializers.ModelSerializer):
+    # img = FileField()
+    class Meta:
+        model = Photoalbum
         fields = '__all__'

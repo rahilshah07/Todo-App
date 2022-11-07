@@ -89,3 +89,11 @@ class Todos(models.Model):
     status = models.CharField(
         max_length=100, choices=STATUS_CHOICES, default='new')
     is_delete = models.BooleanField(default=False)
+
+
+class Photoalbum(models.Model):
+    created_timestamp = models.DateTimeField(default=timezone.now())
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    img = models.FileField(upload_to='images', null=True, blank=True)
+    is_delete = models.BooleanField(default=False)
+

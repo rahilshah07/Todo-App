@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import (
 router = routers.DefaultRouter()
 router.register(r"users", views.UserViewSet)
 router.register(r"todos", views.TodoViewSet, basename="todos")
-
+router.register(r"photos", views.PhotoalbumViewset, basename="photos")
 
 urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),
