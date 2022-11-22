@@ -17,6 +17,8 @@ export class ItemAddEditComponent implements OnInit {
   @Output() formSubmitEvent = new EventEmitter<string>();
 
   itemForm: FormGroup;
+  file: File = null;
+  shortLink: string = "";
 
   isProcessing: Boolean = false;
 
@@ -30,15 +32,27 @@ export class ItemAddEditComponent implements OnInit {
     this.initForm();
   }
 
+  // On file Select
+  onChange(event) {
+    this.file = event.target.files[0];
+}
+
   onSubmit($event) {
     this.isProcessing  = true;
+    console.log(this.file)
     // let bodyParameter:any = JSON.stringify(this.itemForm.value)
     let currentUserId = localStorage.getItem('userId').toString()
-    this.itemForm.value['user']=currentUserId
+
+    let formData = new FormData()
+    formData.set('user',currentUserId);
+    formData.set('image',this.file);
+
+    this.itemForm.value['user'] = currentUserId
+    this.itemForm.value['image'] = this.file
     // console.log(Object.keys(bodyParameter));
         if (this.itemForm.valid) {
         if (!this.item) {
-          this.doAddItem();
+          this.doAddItem(formData);
         } else {
           this.doUpdateItem();
         }
@@ -49,11 +63,11 @@ export class ItemAddEditComponent implements OnInit {
     return this.item ? 'Update' : 'Add';
   }
 
-  private doAddItem() {
-    this.itemsService.add(this.itemForm.value).subscribe(
+  private doAddItem(formData: any) {
+  this.itemsService.add(this.itemForm.value, formData).subscribe(
       (result) => {
         this.formSubmitEvent.next('add');
-        this.itemsService.addItem(this.itemForm.value)
+        this.itemsService.addItem(formData)
         this.itemForm.reset();
         this.isProcessing  = false;
       }

@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { ItemModel } from '../_models/item.model';
 import { ItemsService } from '../_services/items.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-items-list-item',
@@ -11,6 +12,8 @@ import { ItemsService } from '../_services/items.service';
 export class ItemsListItemComponent implements OnInit {
 
    @Input() item: ItemModel;
+   imageUrl : any = '';
+
 
   constructor(
     private itemsService: ItemsService,
@@ -19,6 +22,7 @@ export class ItemsListItemComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this.item);
+    this.imageUrl  = environment['apiBaseUrl'] + this.item.image.name
   }
 
   edit() {

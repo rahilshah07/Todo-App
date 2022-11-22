@@ -1,19 +1,33 @@
 <form  [formGroup]="itemForm">
 
     <div class="form-group">
-      <label for="inputTitle" [ngClass]="{'required': checkField(itemForm.get('title')) }">Title *</label>
+      <label for="inputTitle" [ngClass]="{'required': checkField(itemForm.get('title')) }">Label *</label>
       <input type="text" class="form-control" id="inputTitle" placeholder="Title" formControlName="title"  [ngClass]="{'required': checkField(itemForm.get('title')) }">
     </div>
 
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label for="inputDescription">Description</label>
         <input type="text" class="form-control" id="inputDescription" placeholder="Description" formControlName="description">
-    </div>
+    </div> -->
+
+    <div class="mb-4">
+      <div class="mb-4 d-flex justify-content-center">
+          <img src="../../../assets/images/placeholder.jpg"
+          alt="example placeholder" style="width: 300px;" />
+      </div>
+
+      <div class="d-flex justify-content-center form-group">
+          <div class="btn btn-primary btn-rounded">
+              <label class="form-label text-white m-1" for="image1" >Choose file </label>
+              <input type="file" (change)="onChange($event)" class="form-control d-none" id="image1" formControlName="image1"   />
+          </div>
+      </div>
+  </div>
 
 
     <p class="alert alert-warning" role="alert"  *ngIf="isProcessing">
         Please wait..
     </p>
 
-    <button *ngIf="!isProcessing" type="button" class="btn btn-primary btn-block submitbutton" (click)="onSubmit($event)" [disabled]="!itemForm.valid && !isProcessing">{{getButtonText()}}</button>
+    <button *ngIf="!isProcessing" type="button" class="btn btn-primary btn-block submitbutton" (change)="onChange($event)" (click)="onSubmit($event)" [disabled]="!itemForm.valid && !isProcessing">{{getButtonText()}}</button>
 </form>

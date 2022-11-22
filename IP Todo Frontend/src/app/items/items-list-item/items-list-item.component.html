@@ -1,6 +1,7 @@
 <li class="list-group-item" style="margin-bottom:10px;" *ngIf="item && item.is_delete != true">
   <Strong>{{ item.title }}</Strong>
   <span class="pull-right text-info">{{ item.status }}</span>
+  <span>{{ imageUrl }}</span>
   <hr>
   {{ item.description }}
   <div class="row" style="padding-top:10;">

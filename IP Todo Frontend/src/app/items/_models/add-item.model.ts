@@ -3,4 +3,5 @@ export interface AddItemModel {
     description ?: string;
     userid? : string;
     status? : string;
+    image? : File
 }

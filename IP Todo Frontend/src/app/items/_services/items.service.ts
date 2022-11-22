@@ -110,8 +110,9 @@ export class ItemsService {
     }
   }
 
-  add(payload: AddItemModel): Observable<any> {
-    return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/todos/' , payload)
+  add(payload: AddItemModel, formData: any): Observable<any> {
+    // payload.image = file;
+    return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/photos/' , formData)
       .pipe(
         map(responseData => {
             return (responseData['success'] && responseData['success'] === true) ? responseData['result'] : false;
