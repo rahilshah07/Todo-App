@@ -84,10 +84,13 @@ class CustomUser(AbstractUser):
 class Todos(models.Model):
     created_timestamp = models.DateTimeField(default=timezone.now())
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
     status = models.CharField(
         max_length=100, choices=STATUS_CHOICES, default='new')
+    img = models.FileField(upload_to='images', null=True, blank=True)
+    is_image = models.BooleanField(default=False)
+    url = models.FileField(upload_to='images', null=True, blank=True)
     is_delete = models.BooleanField(default=False)
 
 
