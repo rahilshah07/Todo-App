@@ -22,6 +22,11 @@ export class ItemAddEditComponent implements OnInit {
 
   checkField  = CheckRequiredField;
 
+  // Variables for add img
+  shortLink: string = "";
+  loading: boolean = false; // Flag variable
+  file: File = null;
+
   constructor(
     private itemsService: ItemsService
   ) { }
@@ -30,15 +35,20 @@ export class ItemAddEditComponent implements OnInit {
     this.initForm();
   }
 
+  onChange(event) {
+    this.file = event.target.files[0];
+}
+
   onSubmit($event) {
     this.isProcessing  = true;
+    console.log("File Details" + this.file);
     // let bodyParameter:any = JSON.stringify(this.itemForm.value)
     let currentUserId = localStorage.getItem('userId').toString()
     this.itemForm.value['user']=currentUserId
     // console.log(Object.keys(bodyParameter));
         if (this.itemForm.valid) {
         if (!this.item) {
-          this.doAddItem();
+          this.doAddItem(this.file);
         } else {
           this.doUpdateItem();
         }
@@ -49,8 +59,8 @@ export class ItemAddEditComponent implements OnInit {
     return this.item ? 'Update' : 'Add';
   }
 
-  private doAddItem() {
-    this.itemsService.add(this.itemForm.value).subscribe(
+  private doAddItem(file : any) {
+    this.itemsService.add(this.itemForm.value,this.file).subscribe(
       (result) => {
         this.formSubmitEvent.next('add');
         this.itemsService.addItem(this.itemForm.value)

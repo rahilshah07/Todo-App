@@ -110,8 +110,12 @@ export class ItemsService {
     }
   }
 
-  add(payload: AddItemModel): Observable<any> {
-    return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/todos/' , payload)
+  add(payload: AddItemModel, img: File): Observable<any> {
+    const frmData = new FormData();
+    frmData.append("img",img);
+    frmData.append("user",payload.userid);
+
+    return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/todos/' , frmData)
       .pipe(
         map(responseData => {
             return (responseData['success'] && responseData['success'] === true) ? responseData['result'] : false;
@@ -141,6 +145,7 @@ export class ItemsService {
 
   addItem(item: ItemModel): void {
     const currentItems: ItemModel[]  = this.getAll();
+    // item.status = 'new';
     currentItems.push(item);
     this.items$.next(currentItems);
   }

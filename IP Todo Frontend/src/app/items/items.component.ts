@@ -11,7 +11,8 @@ import { ItemsService } from './_services/items.service';
 export class ItemsComponent implements OnInit {
 
   items$: BehaviorSubject<ItemModel[]>;
-
+  // currentViewType: string;
+  // showCompleted : boolean;
   constructor(
     private itemsService: ItemsService
   ) { }
@@ -19,10 +20,27 @@ export class ItemsComponent implements OnInit {
   ngOnInit() {
     this.itemsService.getAll()
     this.items$  = this.itemsService.items$;
+    // this.currentViewType = this.itemsService.currentViewType;
+    // this.showCompleted = this.itemsService.showCompleted;
   }
 
   hasItems(items: ItemModel[]): boolean {
     return items && items.length > 0 ? true : false;
   }
+
+  // changeView(){
+  //   if(this.currentViewType == 'new'){
+  //     this.currentViewType = 'completed';
+  //     this.itemsService.currentViewType = 'completed';
+  //   }else{
+  //     this.currentViewType = 'new';
+  //     this.itemsService.currentViewType = 'new';
+  //   }
+  //   // if(this.showCompleted == false){
+  //   //   this.showCompleted = true;
+  //   //   this.itemsService.showCompleted = true;
+  //   // }
+  //   // console.log("Clicked");
+  // }
 
 }

@@ -10,6 +10,20 @@
         <input type="text" class="form-control" id="inputDescription" placeholder="Description" formControlName="description">
     </div>
 
+    <!-- Added image Logic -->
+    <div class="text-center mb-4">
+      <input class="form-control" type="file"
+              (change)="onChange($event)">
+
+      <!-- <button (click)="onUpload()"
+          class="btn btn-success">
+          Upload
+      </button> -->
+  </div>
+
+
+  <!-- Add Image Logic Ended  -->
+
 
     <p class="alert alert-warning" role="alert"  *ngIf="isProcessing">
         Please wait..

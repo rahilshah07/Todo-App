@@ -11,6 +11,7 @@ import { ItemsService } from '../_services/items.service';
 export class ItemsListItemComponent implements OnInit {
 
    @Input() item: ItemModel;
+  //  currentViewType : string;
 
   constructor(
     private itemsService: ItemsService,
@@ -19,6 +20,12 @@ export class ItemsListItemComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this.item);
+    // this.currentViewType = this.itemsService.currentViewType;
+    // this.filterItems();
+  }
+
+  filterItems(){
+
   }
 
   edit() {
