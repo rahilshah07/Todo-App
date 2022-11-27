@@ -65,6 +65,9 @@ export class ItemAddEditComponent implements OnInit {
         this.formSubmitEvent.next('add');
         this.itemsService.addItem(this.itemForm.value)
         this.itemForm.reset();
+        this.itemsService.fetch().subscribe((response)=>{
+          this.itemsService.items$.next(response)
+        });
         this.isProcessing  = false;
       }
     );

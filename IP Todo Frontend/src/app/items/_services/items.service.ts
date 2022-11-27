@@ -112,16 +112,20 @@ export class ItemsService {
 
   add(payload: AddItemModel, img: File): Observable<any> {
     const frmData = new FormData();
-    frmData.append("img",img);
-    frmData.append("user",payload.userid);
-
+    const userId = localStorage.getItem('userId')
+    frmData.append("img",img, img.name);
+    frmData.set("user",userId);
+    console.log("UserId"+ userId)
+    console.log(frmData);
     return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/todos/' , frmData)
       .pipe(
         map(responseData => {
+            console.log(responseData);
             return (responseData['success'] && responseData['success'] === true) ? responseData['result'] : false;
           }
         ),
         tap(item => { if (item) { this.addItem(item); }}), // when success, add the item to the local service
+        // tap(item => { if (item) { this.fetch() }}), // when success, add the item to the local service
         catchError(err => {
           return of(false);
         }),
@@ -142,10 +146,10 @@ export class ItemsService {
     }
     return false;
   }
-
+  // Update the local page
   addItem(item: ItemModel): void {
     const currentItems: ItemModel[]  = this.getAll();
-    // item.status = 'new';
+    item.status = 'new';
     currentItems.push(item);
     this.items$.next(currentItems);
   }
@@ -168,9 +172,8 @@ export class ItemsService {
   }
 
   fetch(): Observable<any> {
-
+    debugger;
     this.clear();
-
     return this.http.get(environment['apiBaseUrl'] + 'api/v1/accounts/todos/')
 
   }
