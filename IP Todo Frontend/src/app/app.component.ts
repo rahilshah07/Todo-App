@@ -70,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // console.log('** handleLoginSuccess **');
     this.itemsService.clear();
     this.itemsService.fetch().subscribe((response)=>{
+      response.reverse();
       this.itemsService.items$.next(response)
     });
   }

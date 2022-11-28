@@ -68,20 +68,39 @@ export class ItemsService {
       );
   }
 
-  update(id: number , payload: any): Observable<any> {
+  update(id: number , payload: any, img: File): Observable<any> {
     payload['id'] = id;
     payload['is_delete'] = 'FALSE';
-    return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/todos/update_data/', payload)
+    const frmData = new FormData();
+    const userId = localStorage.getItem('userId')
+    frmData.append("img",img, img.name);
+    frmData.set("user",userId);
+    frmData.set("title",payload.title);
+    frmData.set("description",payload.description);
+    frmData.set("id",payload.id);
+    frmData.set("is_delete",'False');
+    return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/todos/update_data/', frmData)
+
       .pipe(
+
         map(responseData => {
+
             return (responseData && responseData == 'Updated Successfully') ? payload : false;
+
           }
+
         ),
+
         tap(item => { if (item) { this.updateItem(id , item); }}), // when success result, update the item in the local service
+
         catchError(err => {
+
           return of(false);
+
         }),
+
       );
+
   }
 
   changeStatus(id: number , payload: any): Observable<any> {
@@ -110,14 +129,24 @@ export class ItemsService {
     }
   }
 
-  add(payload: AddItemModel): Observable<any> {
-    return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/todos/' , payload)
+  add(payload: AddItemModel, img: File): Observable<any> {
+    const frmData = new FormData();
+    const userId = localStorage.getItem('userId')
+    frmData.append("img",img, img.name);
+    frmData.set("user",userId);
+    frmData.set("title",payload.title);
+    frmData.set("description",payload.description);
+    console.log("UserId"+ userId)
+    console.log(frmData);
+    return this.http.post(environment['apiBaseUrl'] + 'api/v1/accounts/todos/' , frmData)
       .pipe(
         map(responseData => {
+            console.log(responseData);
             return (responseData['success'] && responseData['success'] === true) ? responseData['result'] : false;
           }
         ),
         tap(item => { if (item) { this.addItem(item); }}), // when success, add the item to the local service
+        // tap(item => { if (item) { this.fetch() }}), // when success, add the item to the local service
         catchError(err => {
           return of(false);
         }),

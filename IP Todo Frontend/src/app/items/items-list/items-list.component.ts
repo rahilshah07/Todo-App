@@ -13,6 +13,7 @@ export class ItemsListComponent implements OnInit {
 
   items$: BehaviorSubject<ItemModel[]>;
   currentUserTodos : any;
+  searchText: any;
 
   constructor(
     private itemsService: ItemsService
